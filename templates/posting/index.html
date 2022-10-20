@@ -1,0 +1,12 @@
+{% extends 'mysite/base.html' %}
+{% block content %}
+
+<form id="form_area" action="" method="POST">
+    {% csrf_token %}
+    <textarea id="textarea" class="form-control" name="comment"></textarea>
+    <input id="submit" type="button" value="送信">
+</form>
+
+<div id="content_area">{% include "posting/content.html" %}</div>
+
+{% endblock %}

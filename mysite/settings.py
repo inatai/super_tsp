@@ -38,6 +38,7 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'tsp.apps.TspConfig',
+    'posting.apps.PostingConfig',
     'django.contrib.sites',
     'mysite',
 ]
@@ -118,8 +119,9 @@ USE_TZ = True
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/4.1/howto/static-files/
 
-STATIC_URL = 'static/'
-STATIC_ROOT = str(BASE_DIR / 'staticfiles')
+STATIC_URL = '/static/'
+# STATIC_ROOT = str(BASE_DIR / 'staticfiles')
+STATICFILES_DIRS = [ BASE_DIR / "static" ]
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/4.1/ref/settings/#default-auto-field
