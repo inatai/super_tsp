@@ -1,3 +1,13 @@
+# webアプリを確認する方法
+
+1. `python manage.py makemigrations` を実行(必要ないかも)
+2. `python manage.py migrate` を実行(必要ないかも)
+2. `python manage.py runserver` を実行
+4. [http://127.0.0.1:8000/] をブラウザで開く
+
+
+
+
 # githubでチーム開発をする流れ  
 
 [参考][https://www.flock.codes/Wqu2Rh22633p4dFdnG3E]
@@ -13,7 +23,7 @@
 
 ## 作業の流れ
 
-1. `git pull origin master`  で「ローカルのmain」を「リモートのmain」と同じ状態にする
+1. `git pull origin main`  で「ローカルのmain」を「リモートのmain」と同じ状態にする
 2. vscodeフッター左の「main」→「新しいブランチを作る」クリック  
 3. 変更予定の内容などがわかるような名前で、ローカルにブランチを作成(例:「feature/title」)  
   
