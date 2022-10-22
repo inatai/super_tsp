@@ -6,5 +6,5 @@ app_name = 'tsp'
 urlpatterns = [
     # path('', views.index, name='index'),
     path('', views.index, name='index'),
-    path('', views.TitleView.as_view(), name='title')
+    path('', views.TitleView.as_view(), name='title'),
 ]

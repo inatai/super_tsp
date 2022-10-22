@@ -41,7 +41,7 @@ INSTALLED_APPS = [
     'tsp.apps.TspConfig',
     'posting.apps.PostingConfig',
     'django.contrib.sites',
-    'mysite'
+    'mysite',
 ]
 
 MIDDLEWARE = [

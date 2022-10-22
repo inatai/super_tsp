@@ -11,7 +11,7 @@ urlpatterns = [
     path('', include('tsp.urls')),
     path('posting', include('posting.urls')),
 
-    path('admin/', admin.site.urls)
+    path('admin/', admin.site.urls),
 ]
 
 if settings.DEBUG:
