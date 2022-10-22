@@ -1,0 +1,6 @@
+{% extends 'mysite/base.html' %}
+{% block content %}
+    <h1>{{ title_str }}</h1>
+    <br>
+    <a href="{% url 'posting:index' %}"> >> ajaxを使った投稿ページ(テスト) << </a>
+{% endblock %}
