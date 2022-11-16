@@ -1,5 +1,20 @@
 # webアプリを確認する方法
 
+## 初期設定
+[.env]ファイルに  
+```.env
+SECRET_KEY=  
+```
+を書いて保存
+
+```python
+$ python manage.py shell
+>>> from django.core.management.utils import get_random_secret_key
+>>> get_random_secret_key()
+'xxx-xxxx' # この値を.envのSECRET_KEY=の右にコピー
+```
+　　
+## サーバー起動
 1. `python manage.py makemigrations` を実行(必要ないかも)
 2. `python manage.py migrate` を実行(必要ないかも)
 2. `python manage.py runserver` を実行
@@ -23,9 +38,9 @@
 
 ## 作業の流れ
 
-1. `git pull origin main`  で「ローカルのmain」を「リモートのmain」と同じ状態にする
+1. `git pull origin main`  で「リモートのmain」と「ローカルのmain」を同じ状態にする
 2. vscodeフッター左の「main」→「新しいブランチを作る」クリック  
-3. 変更予定の内容などがわかるような名前で、ローカルにブランチを作成(例:「feature/title」)  
+3. 変更予定の内容などがわかるような名前で、ローカルにブランチを作成(例:「feature/add_title_view」)  
   
  ローカルのブランチ内で作業後  
    
