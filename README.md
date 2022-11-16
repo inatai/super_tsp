@@ -1,5 +1,20 @@
 # webアプリを確認する方法
 
+## 初期設定
+[.env]ファイルに  
+```.env
+SECRET_KEY=  
+```
+を書いて保存
+
+```python
+$ python manage.py shell
+>>> from django.core.management.utils import get_random_secret_key
+>>> get_random_secret_key()
+'xxx-xxxx' # この値を.envのSECRET_KEY=の右にコピー
+```
+　　
+## サーバー起動
 1. `python manage.py makemigrations` を実行(必要ないかも)
 2. `python manage.py migrate` を実行(必要ないかも)
 2. `python manage.py runserver` を実行
