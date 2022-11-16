@@ -23,9 +23,9 @@
 
 ## 作業の流れ
 
-1. `git pull origin main`  で「ローカルのmain」を「リモートのmain」と同じ状態にする
+1. `git pull origin main`  で「リモートのmain」と「ローカルのmain」を同じ状態にする
 2. vscodeフッター左の「main」→「新しいブランチを作る」クリック  
-3. 変更予定の内容などがわかるような名前で、ローカルにブランチを作成(例:「feature/title」)  
+3. 変更予定の内容などがわかるような名前で、ローカルにブランチを作成(例:「feature/add_title_view」)  
   
  ローカルのブランチ内で作業後  
    
