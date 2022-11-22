@@ -14,9 +14,18 @@
     <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
     <link rel="stylesheet" href="{% static 'mysite/css/style.css' %}">
     <script src="{% static 'mysite/js/script.js' %}"></script>
+    <script src = "{% static 'tsp/js/tsp.js' %}"></script>
+    
+    <style type="text/css">
+        #map {
+          height: 600px;
+          width: 80%;
+        }
+    </style>
     <title>スーパーマン</title>
 </head>
-<body>
+
+<body onload="javascript:init();">
     <div class="page-header">
         <h1><a href="/">HOME</a></h1>
     </div>
@@ -27,8 +36,8 @@
                 {% block content %}
                 {% endblock %}
             </div>
-            <div class="col"></div>
         </div>
     </div>
 </body>
+<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDEt2rTAueBBCn32nx6C485iOnIq2zOuwI&callback=init"></script>
 </html>
