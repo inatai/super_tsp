@@ -2,11 +2,15 @@
 {% block content %}
     <h1>{{ title_str }}</h1>
     <br>
-    <a href="{% url 'posting:index' %}"> >> ajaxを使った投稿ページ(テスト) << </a>
+    <a href="{% url 'posting:index' %}"> >> ajaxを使った投稿ページ(テスト) </a>
+    <br>
+    <a href="{% url 'tsp:create_city_page' %}"> >> tsp(過去に作成したもの) </a>
+    <br>
+
 
     <input type="text" size="50" id="input_form">
     <button type="button" onclick="clickBtn()">送信</button>
-    
+
     <script>
         function clickBtn() {
           var txt = document.getElementById("input_form").value;
