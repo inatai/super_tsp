@@ -1,0 +1,26 @@
+{% extends 'mysite/base.html' %}
+{% block content %}
+
+
+<div class="row">
+    <div class="col-7">
+        <canvas id="can" width="580" height="580"></canvas>
+    </div>
+    <div class="col-5">
+        <form action="{% url 'tsp:create_city' %}" method="get" class="contact-form">
+            都市作成
+            {% csrf_token %}
+            <div class="item">
+                <label for="city" class="label">都市の数　</label>
+                <input type="number" id="city" name="num_city" placeholder='都市の数'>
+            </div>
+            <br>
+            <div class="item no-label">
+                <input type="submit">
+            </div>
+        </form>
+
+    </div>
+</div>
+
+{% endblock %}
