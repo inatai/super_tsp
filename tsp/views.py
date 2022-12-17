@@ -57,7 +57,7 @@ genelist = [[0 for j in range(NUM_CITY)] for i in range(math.ceil(G_fin/G_disp_G
 # Create your views here.
 
 class CreateCityView(generic.TemplateView):
-    template_name = 'tsp/make_city.html'
+    template_name = 'tsp/setting_para.html'
     global NUM_CITY, NUM_GENE, Num_select, Num_kousa, P_mut, G_fin, G_disp_GA, Gene, City, Kyori_city
     
     def get_context_data(self, **kwargs):
