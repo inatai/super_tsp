@@ -1,25 +1,240 @@
 {% extends 'mysite/base.html' %}
 {% block content %}
 
+<script>
+    {% if City_json %}
+        const City = JSON.parse('{{ City_json|safe }}');
+    {% endif %}
+    {% if Gene_json %}
+        const Gene = JSON.parse('{{ Gene_json|safe }}');
+        const record = JSON.parse('{{ record_json|safe }}');
+        const genelist = JSON.parse('{{ genelist_json|safe }}');
+        const recordlist = JSON.parse('{{ recordlist_json|safe }}');
+    {% endif %}
+
+    onload = function(){
+        onPaint();
+    }
+    
+    function onPaint(){
+        var canvas = document.getElementById('can');
+    
+        if ( ! canvas || ! canvas.getContext ) {
+            return false;
+        }
+        var cvs = canvas.getContext('2d');
+
+        cvs.fillStyle = "#f0f8ff";   
+        cvs.fillRect(0, 0, 600, 600);
+
+        {% if City_json %}
+            map_put(cvs);
+        {% endif %}
+        {% if Gene_json %}
+            //draw_line_gene(cvs, Gene);
+            roop_n(canvas, genelist.length);
+        {% endif %}
+        // requestAnimationFrame(onPaint);
+        
+    }
+
+    function roop_n(canvas, n){ // n回処理を繰り返す
+        var cvs = canvas.getContext('2d');
+        var speed = 300;
+
+        var count=0
+        cvs.font = 'bold 30pt sans-serif';
+        cvs.strokeStyle = '#f00';
+        cvs.lineWidth = 3;
+        function hoge(){ 
+            if(count > n-1){
+                stop_hoge();
+            }
+            else{ //この中の処理が繰り返される
+                draw_root(canvas, cvs, count);
+                var s = (count+1)*10 + "世代目";
+                cvs.strokeText(s, 20, 40);
+                cvs.strokeText(recordlist[count], 20, 80);
+            }
+            count++;
+        }
+        var setIV = setInterval(hoge, speed);
+        function stop_hoge(){
+            clearInterval(setIV);
+        }
+    }
+
+    function draw_root(canvas, cvs, count){
+        cvs.clearRect(0, 0, canvas.clientWidth, canvas.clientHeight);
+
+        // cvs.fillStyle = "#f0f8ff";   
+        // cvs.fillRect(0, 0, 600, 600);
+
+        change_map_put(cvs, count);
+        draw_line_gene(cvs, genelist[count]);
+        console.log(recordlist[count]);
+    }
+    
+    function change_map_put(cvs, n){ //リストnコメのCityを表示
+        var city = genelist[n][0];
+        var x = parseInt(City[city][0]*560, 10) + 10;
+        var y = parseInt(City[city][1]*560, 10) + 10;
+        var c = "tomato";
+    
+        circle_draw(cvs, x, y, c);
+        
+        for(var i=1;i<City.length;i++){
+            city = genelist[n][i];
+            x = parseInt(City[city][0]*560, 10) + 10;//小数点以下切り捨て
+            y = parseInt(City[city][1]*560, 10) + 10;
+            c = "Black";
+            
+            circle_draw(cvs, x, y, c);
+        }
+    }
+
+
+    function map_put(cvs){ //Cityを表示
+        var x = parseInt(City[0][0]*560, 10) + 10;
+        var y = parseInt(City[0][1]*560, 10) + 10;
+        var c = "tomato";
+    
+        circle_draw(cvs, x, y, c);
+        
+        for(var i=1;i<City.length;i++){
+            x = parseInt(City[i][0]*560, 10) + 10;//小数点以下切り捨て
+            y = parseInt(City[i][1]*560, 10) + 10;
+            c = "Black";
+            
+            circle_draw(cvs, x, y, c);
+        }
+    }
+
+
+    function draw_line_gene(cvs, gene){ //gene配列の都市間に線を引く
+        for(var i=0;i<gene.length;i++){
+            var sx = parseInt(City[gene[i]][0]*560, 10) + 10;
+            var sy = parseInt(City[gene[i]][1]*560, 10) + 10;
+            if(i == gene.length - 1){
+                var ex = parseInt(City[gene[0]][0]*560, 10) + 10;
+                var ey = parseInt(City[gene[0]][1]*560, 10) + 10;
+            }
+            else{
+                var ex = parseInt(City[gene[i+1]][0]*560, 10) + 10;
+                var ey = parseInt(City[gene[i+1]][1]*560, 10) + 10;
+            }
+
+            line_draw(cvs, sx, sy, ex, ey);
+        }
+
+        
+    }
+        
+    function rectangle_draw(cvs, x, y){
+        var w = x - 10;
+        var h = y - 10;
+        cvs.fillStyle = "Black";   
+        cvs.fillRect(w,h,20,20); // (50,50)の位置に100x100のサイズの四角形を描く
+    }
+    
+    function circle_draw(cvs, x, y, c){
+        cvs.beginPath ();// パスをリセット
+    
+        cvs.arc(x, y, 8, 0, 2 * Math.PI);
+        cvs.fillStyle = c ;// 塗りつぶしの色 
+        cvs.fill();// 塗りつぶしを実行
+    }
+
+    function line_draw(cvs, sx, sy, ex, ey){
+        cvs.beginPath();
+
+        cvs.moveTo(sx, sy);
+        cvs.lineTo(ex, ey);
+        cvs.strokeStyle = "black";
+        cvs.lineWidth = 2;
+
+        cvs.stroke() ;
+    }
+</script>
+<br>
 
 <div class="row">
     <div class="col-7">
-        <canvas id="can" width="580" height="580"></canvas>
+        <canvas id="can" width="580" height="580" style="background-color: #f0f8ff;"></canvas>
     </div>
     <div class="col-5">
         <form action="{% url 'tsp:create_city' %}" method="get" class="contact-form">
             都市作成
             {% csrf_token %}
-            <div class="item">
-                <label for="city" class="label">都市の数　</label>
-                <input type="number" id="city" name="num_city" placeholder='都市の数'>
-            </div>
+            {% if get_num_city %}
+                <div class="item">
+                    <label for="city" class="label">都市の数　</label>
+                    <input type="number" value="{{get_num_city}}" id="city" name="num_city" placeholder='都市の数'>
+                </div>
+            {% else %}
+                <div class="item">
+                    <label for="city" class="label">都市の数　</label>
+                    <input type="number" id="city" name="num_city" placeholder='都市の数'>
+                </div>
+            {% endif %}
             <br>
             <div class="item no-label">
                 <input type="submit">
             </div>
         </form>
 
+
+        <form action="{% url 'tsp:search' %}" method="get" class="contact-form">
+            探索
+            {% csrf_token %}
+            {% if get_num_gene %}
+                <div class="item">
+                    <label for="gene" class="label">遺伝子の数</label>
+                    <input type="number" value="{{get_num_gene}}" id="gene" name="num_gene" placeholder='遺伝子の数'>
+                </div>
+                <div class="item">
+                    <label for="g" class="label">世代数　　</label>
+                    <input type="number" value="{{get_g_fin}}" id="g" name="g_fin" placeholder='世代数'>
+                </div>
+                <div class="item">
+                    <label for="select" class="label">選択割合　</label>
+                    <input type="text" value="{{get_p_select}}" id="select" value="0." name="p_select" placeholder='選択で残す割合'>
+                </div>
+                <div class="item">
+                    <label for="kousa" class="label">交叉割合　</label>
+                    <input type="text" id="kousa" value="{{get_p_kousa}}" name="p_kousa" placeholder='交叉させる割合'>
+                </div>
+                <div class="item">
+                    <label for="mut" class="label">変異確率　</label>
+                    <input type="text" id="mut" value="{{get_p_mut}}" name="p_mut" placeholder='突然変異確率'>
+                </div>
+            {% else %}
+                <div class="item">
+                    <label for="gene" class="label">遺伝子の数</label>
+                    <input type="number" id="gene" name="num_gene" placeholder='遺伝子の数'>
+                </div>
+                <div class="item">
+                    <label for="g" class="label">世代数　　</label>
+                    <input type="number" id="g" name="g_fin" placeholder='世代数'>
+                </div>
+                <div class="item">
+                    <label for="select" class="label">選択割合　</label>
+                    <input type="text" id="select" value="0." name="p_select" placeholder='選択で残す割合'>
+                </div>
+                <div class="item">
+                    <label for="kousa" class="label">交叉割合　</label>
+                    <input type="text" id="kousa" value="0." name="p_kousa" placeholder='交叉させる割合'>
+                </div>
+                <div class="item">
+                    <label for="mut" class="label">変異確率　</label>
+                    <input type="text" id="mut" value="0." name="p_mut" placeholder='突然変異確率'>
+                </div>
+            {% endif %}
+            <br>
+            <div class="item no-label">
+                <input type="submit">
+            </div>
+        </form>
     </div>
 </div>
 
