@@ -45,6 +45,12 @@ $ python manage.py shell
  ローカルのブランチ内で作業後  
    
 4. 作業内容がわかるコメントを添えてコミット  
+> コンフリクト防止のための作業  
+> 1. リモートブランチをdevに切り替える  
+> 2. `git pull origin dev`  
+> 3. リモートブランチを編集していたブランチに切り替える  
+> 4. `git merge dev`  
+  
 5. ブランチを同期(push)をクリック  
 6. github上で「compare & pull request」をクリック  
 7. Reviewersを誰か承認してほしい人に設定、または設定しないまま  
